@@ -1,0 +1,217 @@
+@import url('https://maxcdn.bootstrapcdn.com/font-awesome/latest/css/font-awesome.min.css');
+
+body {
+    font: normal 16px/20px "Helvetica Neue", Helvetica, sans-serif;
+    background: #fff;
+    margin: 0;
+    padding: 0;
+    color: #333333;
+}
+a {
+    color: #F7A253;
+}
+a:hover, a:focus, a:active {
+    color: #F75353;
+}
+
+p {
+	margin: 10px 0;
+}
+/***********/
+
+
+/* Wrapper */
+
+
+/***********/
+
+/* .wrapper {
+    width: 500px;
+    margin: 0 auto;
+    text-align: center;
+}*/
+
+.wrapper a:hover, .wrapper a:visited, .wrapper a:active{
+    color: #00abff;
+    text-decoration: none;
+}
+.wrapper .status-link , .wrapper .status-link:hover, .wrapper .status-link:focus, .status-link .wrapper:active{
+    color: white;
+    text-decoration:none;
+}
+.wrapper p {
+    /* font-weight: bold; */
+}
+.wrapper .description p{
+    font-weight: normal;
+}
+.wrapper .description a {
+    text-decoration:underline;
+    color: #F7A253;
+}
+.wrapper .description a:hover, a:focus, a:active {
+    text-decoration:underline;
+    color: #F75353;
+} 
+
+
+/***********/
+
+
+/*  Status */
+
+
+/***********/
+
+.status {
+    /*font-weight:bold;
+    font-size: 16pt;
+    padding: 15px;
+    background: #ccc;
+    -moz-border-radius: 5px;
+    -webkit-border-radius: 5px;
+    border-radius: 5px;
+    color: white;
+    text-decoration:none;*/
+}
+.status#fail, .status#offline {
+    background: #F75353;
+}
+.status#success, .status#online {
+    /*background: #27AE60;*/
+}
+
+
+/***********/
+
+
+/* Holder  */
+
+
+/***********/
+
+.holder {
+    /* border: 10px dashed #ccc; */
+    border: 1px dashed #00abff;
+    /* min-width: 400px; */
+    width: 100%;
+    /* height: 100%; */
+    height: calc(100% - 8rem);
+    /* min-height: 340px; */
+    /* margin: 20px auto; */
+    overflow: hidden;
+    -moz-border-radius: 10px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+}
+.holder#hover {
+    border: 1px dashed red;
+}
+/* .holder :not(i), .holder :not(p){
+    width: 100%;
+    height: 100%;
+} */
+.holder .fa{
+  padding: 30% 10% 30% 10%;
+}
+.holder .upload-but {
+    display: none;
+}
+.holder .upload {
+    width: auto;
+    height: auto;
+    vertical-align: middle;
+    text-align: center;
+    /* cursor: pointer; */
+}
+.holder .upload .button {
+    /* padding: 175px 0; */
+    /* padding: 175px 0px 10px 0px; */
+    padding: 0px;
+    color: #00abff;
+    font-size: 80px;
+    margin: 0;
+}
+
+
+/******************/
+
+
+/* Torrent Infos  */
+
+
+/******************/
+
+.torrent-infos > div, .torrent-infos p{
+  font-family: FontAwesome;
+  display: inline-block;
+}
+
+input[name=url] {
+    text-align: center;
+    width: 400px;
+    height: 15px;
+    padding: 5px;
+    border: 1px solid grey;
+    border-radius: 5px;
+}
+.torrent-infos p {
+  font-family: sans-serif;
+  font-weight: 500;
+}
+.torrent-infos > div {
+    padding: 0 5px;
+}
+.torrent-infos .uploaded-data i{
+  color: #F75353;
+}
+.torrent-infos .downloaded-data i{
+  color: #32C8DE;
+}
+
+.download-url{
+    /* float: left; */
+    /* width: 100%; */
+    width: 45px;
+    /* margin-bottom: 50px; */
+    display: inline-block;
+    width: auto;
+    margin-right: 10px;
+    /* margin-top: 10px; */
+}
+
+
+
+.remove-seed-btn{
+    /* position: absolute;
+    right: 0px; */
+    cursor: pointer;
+    height: 28px;
+    border-radius: 4px;
+    background: #00abff;
+    border: none;
+    font-size: 14px;
+    color: white;
+    /* margin-top: 10px; */
+}
+#timeline-label, #timeline {
+    display: none;
+}
+/***********/
+
+
+/* Footer  */
+
+
+/***********/
+
+.footer{
+  position: fixed;
+  bottom: 0;
+  left: 16px;
+
+  font-size: 12px;
+}
+.footer p{
+  margin: 0;
+}

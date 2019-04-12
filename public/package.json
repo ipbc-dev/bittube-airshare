@@ -1,0 +1,25 @@
+{
+  "name": "BitTube-AirShare",
+  "version": "1.2.2",
+  "description": "Share file directly to your friends",
+  "scripts": {
+    "test": "echo \"Error: no test specified !\""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ipbc-dev/bittube-airshare.git"
+  },
+  "author": "BitTube <hello@bittubeapp.com> (https://bittubeapp.com)",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ipbc-dev/bittube-airshare/issues"
+  },
+  "homepage": "https://github.com/ipbc-dev/bittube-airshare#readme",
+  "standard": {
+    "globals": [
+      "$",
+      "WebTorrent",
+      "prompt"
+    ]
+  }
+}
