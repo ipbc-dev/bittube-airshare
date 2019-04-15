@@ -216,10 +216,7 @@ function showDownloadButton(fileName, url) {
 function appendHolder(torrent) {
   console.log('timestamp: ', moment().format('LLL'));
   console.log('append to holder:', torrent.hash);
-
-  if ( $(`#${torrent.infoHash}-loader`).length != 0 ){
-    $(`#${torrent.infoHash}-loader`)[0].remove();
-  }
+  
   var timestamp = moment().format('LLL');
   var name = torrent.name;
   var link = 'https://airshare.bittubeapp.com#' + torrent.infoHash;
@@ -257,7 +254,9 @@ function appendHolder(torrent) {
   $('#divLoader').addClass('hidden');
   $('#timeline').show();
 
-
+  if ( $(`#${torrent.infoHash}-loader`).length != 0 ){
+    $(`#${torrent.infoHash}-loader`)[0].remove();
+  }
 
   torrent.files.find(function (file) {
     file.appendTo(`#a${torrent.infoHash}`, {
