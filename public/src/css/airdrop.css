@@ -24,6 +24,7 @@ body {
   max-width: 64rem;
   width: 100%;
   height: 100%;
+  transition: all 0.5s ease-in;
 }
 
 #uploadButton{
@@ -303,7 +304,8 @@ button, input{
   cursor: pointer;
 }
 .buttonsView{
-  float: right;
+  position: absolute;
+  right: 10px;
 }
 .seed-container, .seed-container-3, .seed-container-1{
   padding: 20px;
@@ -439,14 +441,49 @@ button, input{
   height: 10px;
   cursor: pointer;
  }
-@media (min-width: 768px) {
-  /* .imageIntro{
-    max-width: unset;
-    height: unset;
-    margin-bottom: -3rem;
-    margin-right: -7rem;
 
-  } */
+
+ #uploadCollapsible{
+  width: 100%;
+  margin: 20px auto;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 0 32px 0 rgba(12, 12, 13, .1), 0 2px 16px 0 rgba(12, 12, 13, .05);
+  background: white;
+  padding: 15px;
+  color: #00abff;
+  font-weight: 500;
+  font-size: 18px;
+  margin-bottom: 20px;
+  cursor: pointer;
+ }
+
+.uploadCollapse{
+  margin-top: 0px !important;
+  padding-top: 0px !important;
+  margin-bottom: 0px !important;
+}
+
+/* .arrowDown{
+  position: absolute;
+  right: 10px;
+} */
+
+.imgFile{
+  height: 18px;
+  margin-right: 6px;
+  margin-top: -3px;
+}
+
+.imgIcon{
+  height: 20px;
+}
+
+@media (min-width: 768px) {
+  #uploadCollapsible{
+    width: calc(100% - 3rem);
+    max-width: 64rem;
+   }
  
   #timeline-label {
     width: calc(100% - 3rem);
@@ -500,7 +537,6 @@ button, input{
     flex: 1 1 0%;
     align-self: center;
     align-items: center;
-    /* margin: auto; */
     margin: 20px auto;
     padding-top: 2rem;
     padding-bottom: 2rem;

@@ -216,7 +216,7 @@ function showDownloadButton(fileName, url) {
 function appendHolder(torrent) {
   console.log('timestamp: ', moment().format('LLL'));
   console.log('append to holder:', torrent.hash);
-  
+
   var timestamp = moment().format('LLL');
   var name = torrent.name;
   var link = 'https://airshare.bittubeapp.com#' + torrent.infoHash;
@@ -254,6 +254,12 @@ function appendHolder(torrent) {
   $('#divLoader').addClass('hidden');
   $('#timeline').show();
 
+  if ( $('#uploadCollapsible').hasClass('hidden') ){
+    $('#uploadCollapsible').removeClass('hidden');
+    $('#uploadSection').addClass('uploadCollapse');
+    $('#uploadSection').addClass('collapse');
+  }
+
   if ( $(`#${torrent.infoHash}-loader`).length != 0 ){
     $(`#${torrent.infoHash}-loader`)[0].remove();
   }
@@ -275,9 +281,14 @@ function appendHolder(torrent) {
         $('#totalFiles')[0].innerHTML = '';
         $('#timeline-label').hide();
         $('#timeline').hide();
-      } else if ($('#timeline').children().length == 1) {
-        // $('.seed-container').removeClass('seed-container').addClass('seed-container-1');
-      }
+        if( $('#uploadCollapsible').hasClass('collapsed') ){
+          $('#uploadCollapsible').removeClass('collapsed')
+        }
+        $('#uploadCollapsible').addClass('hidden');
+        $('#uploadSection').removeClass('uploadCollapse').removeClass('collapse').removeClass('show');
+        $('#arrowDown').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+        
+      } 
     });
   });
 
@@ -286,15 +297,6 @@ function appendHolder(torrent) {
   });
 
   torrent.files.forEach(function (file) {
-    // Torrents can contain many files. Let's use the .mp4 file
-
-    /*file.appendTo('.holder', function (err) {
-      if (err) {
-        appendFileIcon(file.name.split('.')[file.name.split('.').length - 1])
-      } else {
-        $('.holder p').remove()
-      }
-    })*/
     file.getBlobURL(function (err, url) {
       console.log('GETBLOB')
       if (err) {
@@ -530,7 +532,13 @@ const selectViews = (element, view) => {
   }
 } 
 const hookClicks = () => {
-  
+  $('#uploadCollapsible').on('click', function(e){
+    if ( $('#arrowDown').hasClass('fa-chevron-down') ){
+      $('#arrowDown').removeClass('fa-chevron-down').addClass('fa-chevron-up');
+    }else{
+      $('#arrowDown').removeClass('fa-chevron-up').addClass('fa-chevron-down');
+    }
+  })
   $('#threeColumns').on('click', function(e){
     selectViews('threeColumns', 'three');
   });

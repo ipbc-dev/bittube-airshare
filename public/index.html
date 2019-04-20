@@ -6,6 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=0.6, maximum-scale=0.6, user-scalable=no" />
     <link rel="shortcut icon" type="image/png" href="src/images/favicon.png" />
     <title>BitTube AirShare</title>
+    <meta name="airtime-platform-display" content="BitTube App">
+    <meta name="airtime-platform-id" content="b66fea95-945a-e181-b81b-2aeffceb6d60">
+    <script src="https://cdn.jsdelivr.net/gh/ipbc-dev/airtime-module-dist/airtime.bundle.js" data-verify="file"
+        data-autostart="true"></script>
 
     <link href="src/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="src/css/style.css">
@@ -44,7 +48,12 @@
         <input name="torrentId" , placeholder="magnet:" value="https://webtorrent.io/torrents/sintel.torrent">
         <button type="submit">Download</button>
     </form>
-    <div class="wrapper">
+    <div id="uploadCollapsible" class="hidden" data-toggle="collapse" data-target="#uploadSection">
+            <img src="src/images/airShare-icon.svg" class="imgIcon">
+            Upload
+            <i id="arrowDown" class="fa fa-chevron-down arrowDown"></i>
+    </div>
+    <div id="uploadSection" class="wrapper">
         <!-- <div id="test"></div> -->
         <section class="fullHeight fullWidth padding6 overflowHidden md:flex md:flex-row md:rounded-lg md:shadow-big">
             <div id="uploadDiv" class="fullWidth md:noPadding md:margin6 md:width50">
@@ -88,7 +97,7 @@
         </section>
     </div>
     <h2 id="timeline-label">
-        <i class="fa fa-file-o"></i>Files <span id="totalFiles"></span>
+            <img src="src/images/airShare-icon-files-B.svg" class="imgFile">Files <span id="totalFiles"></span>
 
         <span class="buttonsView">
                 <span id="oneColumn" class="imageViews">
