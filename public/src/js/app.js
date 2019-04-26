@@ -268,7 +268,10 @@ function appendHolder(torrent) {
     file.appendTo(`#a${torrent.infoHash}`, {
       autoplay: true
     });
-    $(`#a${torrent.infoHash}`).append(`<p class="share-link"><a class="blueColor" target="_blank" id="span-${torrent.infoHash}" href="${link}"> ${link} </a></p>`)
+    if ( $(`#span-${torrent.infoHash}`).length == 0 ){
+      $(`#a${torrent.infoHash}`).append(`<p class="share-link"><a class="blueColor" target="_blank" id="span-${torrent.infoHash}" href="${link}"> ${link} </a></p>`)
+    }
+    
     return file.name.endsWith('.mp4')
   })
 
