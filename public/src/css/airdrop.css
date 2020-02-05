@@ -315,8 +315,8 @@ button, input{
   border-radius: 4px;
   box-shadow: 0 0 32px 0 rgba(12, 12, 13, .1), 0 2px 16px 0 rgba(12, 12, 13, .05);
   margin-bottom: 49px;
-  max-height: 615px;
-  height: 615px;
+  max-height: 700px;
+  height: 700px;
   width: 100%;
 } 
 

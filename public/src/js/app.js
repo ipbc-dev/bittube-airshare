@@ -184,7 +184,7 @@ function onTorrentSeed(torrent) {
   console.log('Hash: ' + torrent.infoHash)
   updatePeer(torrent.numPeers)
   console.log('show download link');
-  var link = 'https://airshare.bittubeapp.com#' + torrent.infoHash
+  var link = 'https://airshare.bittube.app#' + torrent.infoHash
   //link = link.replace(/\/+/g, '/')
   //prompt('Partager le lien:', link)
   destroy(torrent)
@@ -219,7 +219,7 @@ function appendHolder(torrent) {
 
   var timestamp = moment().format('LLL');
   var name = torrent.name;
-  var link = 'https://airshare.bittubeapp.com#' + torrent.infoHash;
+  var link = 'https://airshare.bittube.app#' + torrent.infoHash;
   var classContainer = 'seed-container-1'
   if ( localStorage.getItem('viewStyle') != null ){
     switch (localStorage.getItem('viewStyle')){
@@ -239,10 +239,10 @@ function appendHolder(torrent) {
   $('#timeline').prepend(`<div id="a${torrent.infoHash}" class="itemContainer ${classContainer}">
   <div class="divButtons">
     <button id="copy-${torrent.infoHash}" class="copyButton"><i class="fa fa-copy"></i> Copy link</button>
-    <a class="download-url" href="https://airshare.bittubeapp.com/${torrent.infoHash}" download="${name}">
+    <a class="download-url" href="https://airshare.bittube.app/${torrent.infoHash}" download="${name}">
     <button class="defaultButton">
     <i class="fa fa-download"></i> 
-    </button></a>
+    </button></a> 
     <button id="a${torrent.infoHash}-remove" class="remove-seed-btn defaultButton"><i class="fa fa-trash"></i></button></div>
 
     <h3 class="torrent-name">${name}</h3>

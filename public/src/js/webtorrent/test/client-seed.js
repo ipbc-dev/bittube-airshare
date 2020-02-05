@@ -1,6 +1,5 @@
 /* global Blob */
 
-var Buffer = require('safe-buffer').Buffer
 var fixtures = require('webtorrent-fixtures')
 var test = require('tape')
 var WebTorrent = require('../')
@@ -61,7 +60,7 @@ test('client.seed: torrent file (Blob)', function (t) {
   client.on('error', function (err) { t.fail(err) })
   client.on('warning', function (err) { t.fail(err) })
 
-  client.seed(new Blob([ fixtures.leaves.content ]), {
+  client.seed(new Blob([fixtures.leaves.content]), {
     name: 'Leaves of Grass by Walt Whitman.epub',
     announce: []
   }, function (torrent) {

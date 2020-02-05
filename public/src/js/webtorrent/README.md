@@ -1,3 +1,9 @@
+<p align="center">
+  <a href="https://codefund.io/properties/455/visit-sponsor">
+    <img src="https://codefund.io/properties/455/sponsor" />
+  </a>
+</p>
+
 <h1 align="center">
   <br>
   <a href="https://webtorrent.io"><img src="https://webtorrent.io/img/WebTorrent.png" alt="WebTorrent" width="200"></a>
@@ -10,7 +16,7 @@
 <h4 align="center">The streaming torrent client. For node.js and the web.</h4>
 
 <p align="center">
-  <a href="https://gitter.im/webtorrent/webtorrent"><img src="https://img.shields.io/badge/gitter-join%20chat%20%E2%86%92-brightgreen.svg" alt="gitter"></a>
+  <a href="https://discord.gg/cnXkm4Z"><img src="https://img.shields.io/discord/612575111718895616" alt="discord"></a>
   <a href="https://travis-ci.org/webtorrent/webtorrent"><img src="https://img.shields.io/travis/webtorrent/webtorrent/master.svg" alt="travis"></a>
   <a href="https://ci.appveyor.com/project/webtorrent/webtorrent"><img src="https://ci.appveyor.com/api/projects/status/cgu85xlgl72uoswq/branch/master?svg=true" alt="appveyor"></a>
   <a href="https://www.npmjs.com/package/webtorrent"><img src="https://img.shields.io/npm/v/webtorrent.svg" alt="npm version"></a>
@@ -54,8 +60,8 @@ they can connect to both normal *and* web peers. We hope other clients will foll
 
 ### Open Source Sponsors
 
-[<img src='https://webtorrent.io/img/supporters/popchest.png' width=300>](https://popchest.com) | [<img src='https://webtorrent.io/img/supporters/brave.png' width=300>](https://brave.com)
-|---|---|
+[<img src='https://webtorrent.io/img/supporters/brave.png' width=300>](https://brave.com)
+|---|
 
 ### Features
 
@@ -113,7 +119,7 @@ To install a WebTorrent desktop application for Mac, Windows, or Linux, see
   with development or to hang out with some mad science hackers :)
 - **[Create a new issue](https://github.com/webtorrent/webtorrent/issues/new)** to report bugs
 - **[Fix an issue](https://github.com/webtorrent/webtorrent/issues?state=open)**. WebTorrent
-  is an [OPEN Open Source Project](CONTRIBUTING.md)!
+  is an [OPEN Open Source Project](https://github.com/webtorrent/.github/blob/master/CONTRIBUTING.md)!
 
 ### Who is using WebTorrent today?
 

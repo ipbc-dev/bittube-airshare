@@ -1,4 +1,4 @@
-/* global URL, Blob */
+/* global Blob */
 
 const addrToIPPort = require('addr-to-ip-port')
 const BitField = require('bitfield')
@@ -46,7 +46,7 @@ const RECHOKE_OPTIMISTIC_DURATION = 2 // 30 seconds
 // IndexedDB chunk stores used in the browser benefit from maximum concurrency
 const FILESYSTEM_CONCURRENCY = process.browser ? Infinity : 2
 
-const RECONNECT_WAIT = [ 1000, 5000, 15000 ]
+const RECONNECT_WAIT = [1000, 5000, 15000]
 
 const VERSION = require('../package.json').version
 const USER_AGENT = `WebTorrent/${VERSION} (https://webtorrent.io)`
@@ -169,7 +169,7 @@ class Torrent extends EventEmitter {
     if (typeof window === 'undefined') throw new Error('browser-only property')
     if (!this.torrentFile) return null
     return URL.createObjectURL(
-      new Blob([ this.torrentFile ], { type: 'application/x-bittorrent' })
+      new Blob([this.torrentFile], { type: 'application/x-bittorrent' })
     )
   }
 
@@ -277,6 +277,19 @@ class Torrent extends EventEmitter {
   }
 
   _onListening () {
+    if (this.destroyed) return
+
+    if (this.info) {
+      // if full metadata was included in initial torrent id, use it immediately. Otherwise,
+      // wait for torrent-discovery to find peers and ut_metadata to get the metadata.
+      this._onMetadata(this)
+    } else {
+      if (this.xs) this._getMetadataFromServer()
+      this._startDiscovery()
+    }
+  }
+
+  _startDiscovery () {
     if (this.discovery || this.destroyed) return
 
     let trackerOpts = this.client.tracker
@@ -334,21 +347,13 @@ class Torrent extends EventEmitter {
     this.discovery.on('warning', (err) => {
       this.emit('warning', err)
     })
-
-    if (this.info) {
-      // if full metadata was included in initial torrent id, use it immediately. Otherwise,
-      // wait for torrent-discovery to find peers and ut_metadata to get the metadata.
-      this._onMetadata(this)
-    } else if (this.xs) {
-      this._getMetadataFromServer()
-    }
   }
 
   _getMetadataFromServer () {
     // to allow function hoisting
     const self = this
 
-    const urls = Array.isArray(this.xs) ? this.xs : [ this.xs ]
+    const urls = Array.isArray(this.xs) ? this.xs : [this.xs]
 
     const tasks = urls.map(url => cb => {
       getMetadataFromURL(url, cb)
@@ -500,11 +505,23 @@ class Torrent extends EventEmitter {
       this._onWireWithMetadata(wire)
     })
 
+    // Emit 'metadata' before 'ready' and 'done'
+    this.emit('metadata')
+
+    // User might destroy torrent in response to 'metadata' event
+    if (this.destroyed) return
+
     if (this.skipVerify) {
       // Skip verifying exisitng data and just assume it's correct
       this._markAllVerified()
       this._onStore()
     } else {
+      const onPiecesVerified = (err) => {
+        if (err) return this._destroy(err)
+        this._debug('done verifying')
+        this._onStore()
+      }
+
       this._debug('verifying existing torrent data')
       if (this._fileModtimes && this._store === FSChunkStore) {
         // don't verify if the files haven't been modified since we last checked
@@ -517,15 +534,13 @@ class Torrent extends EventEmitter {
             this._markAllVerified()
             this._onStore()
           } else {
-            this._verifyPieces()
+            this._verifyPieces(onPiecesVerified)
           }
         })
       } else {
-        this._verifyPieces()
+        this._verifyPieces(onPiecesVerified)
       }
     }
-
-    this.emit('metadata')
   }
 
   /*
@@ -547,8 +562,8 @@ class Torrent extends EventEmitter {
     })
   }
 
-  _verifyPieces () {
-    parallelLimit(this.pieces.map((_, index) => cb => {
+  _verifyPieces (cb) {
+    parallelLimit(this.pieces.map((piece, index) => cb => {
       if (this.destroyed) return cb(new Error('torrent is destroyed'))
 
       this.store.get(index, (err, buf) => {
@@ -559,7 +574,7 @@ class Torrent extends EventEmitter {
           if (this.destroyed) return cb(new Error('torrent is destroyed'))
 
           if (hash === this._hashes[index]) {
-            if (!this.pieces[index]) return
+            if (!this.pieces[index]) return cb(null)
             this._debug('piece verified %s', index)
             this._markVerified(index)
           } else {
@@ -568,10 +583,21 @@ class Torrent extends EventEmitter {
           cb(null)
         })
       })
-    }), FILESYSTEM_CONCURRENCY, err => {
-      if (err) return this._destroy(err)
-      this._debug('done verifying')
-      this._onStore()
+    }), FILESYSTEM_CONCURRENCY, cb)
+  }
+
+  rescanFiles (cb) {
+    if (this.destroyed) throw new Error('torrent is destroyed')
+    if (!cb) cb = noop
+
+    this._verifyPieces((err) => {
+      if (err) {
+        this._destroy(err)
+        return cb(err)
+      }
+
+      this._checkDone()
+      cb(null)
     })
   }
 
@@ -593,6 +619,9 @@ class Torrent extends EventEmitter {
   _onStore () {
     if (this.destroyed) return
     this._debug('on store')
+
+    // Start discovery before emitting 'ready'
+    this._startDiscovery()
 
     this.ready = true
     this.emit('ready')
@@ -820,7 +849,7 @@ class Torrent extends EventEmitter {
     if (this.destroyed) throw new Error('torrent is destroyed')
 
     if (start < 0 || end < start || this.pieces.length <= end) {
-      throw new Error('invalid selection ', start, ':', end)
+      throw new Error(`invalid selection ${start} : ${end}`)
     }
     priority = Number(priority) || 0
 
@@ -1138,7 +1167,17 @@ class Torrent extends EventEmitter {
     const ite = randomIterate(this.wires)
     let wire
     while ((wire = ite())) {
-      this._updateWire(wire)
+      this._updateWireWrapper(wire)
+    }
+  }
+
+  _updateWireWrapper (wire) {
+    const self = this
+
+    if (typeof window !== 'undefined' && typeof window.requestIdleCallback === 'function') {
+      window.requestIdleCallback(function () { self._updateWire(wire) }, { timeout: 250 })
+    } else {
+      self._updateWire(wire)
     }
   }
 
@@ -1554,7 +1593,7 @@ class Torrent extends EventEmitter {
     if (this.destroyed) throw new Error('torrent is destroyed')
     if (!this.ready) return this.once('ready', () => { this.load(streams, cb) })
 
-    if (!Array.isArray(streams)) streams = [ streams ]
+    if (!Array.isArray(streams)) streams = [streams]
     if (!cb) cb = noop
 
     const readable = new MultiStream(streams)
